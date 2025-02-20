@@ -75,4 +75,32 @@ extern "C" {
 #endif /* __cplusplus */
 
 #endif	/* XC_HEADER_TEMPLATE_H */
+#ifndef MAIN_H
+#define MAIN_H
+#define POWER_ON_SCREEN   0x01
+#define MENU_SCREEN       0x02
+#define MICRO_MODE        0x11
+#define GRILL_MODE        0x12
+#define CONVENTION_MODE   0x13
+#define START_MODE        0X14
+
+#define DISPLAY_TIME      0XDD
+
+
+
+
+#define RESET_MODE        0XFF
+#define RESET_NOTHING     0X00
+
+#define FAN_DDR           TRISC2
+#define FAN               RC2
+
+#define BUZZER_DDR        TRISC1
+#define BUZZER            RC1
+
+#define START             0XAA
+#define STOP              0XBB
+#define PAUSE             0XCC
+
+#endif
 

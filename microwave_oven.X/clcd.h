@@ -1,8 +1,8 @@
 /* 
  * File:   clcd.h
- * Author: Biancaa. R
+ * Author: Karthayani
  *
- * Created on 16 February, 2025, 12:15 AM
+ * Created on 19 February, 2025, 19:25 PM
  */
 
 #ifndef CLCD_H
@@ -46,5 +46,4 @@ void clcd_write(unsigned char byte, unsigned char mode);
 // rd7 6 5 4 --> as the output
 // TRISDD= TRISD && 0x0F;]
 #endif	/* CLCD_H */
-
 

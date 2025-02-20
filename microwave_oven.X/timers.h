@@ -75,4 +75,9 @@ extern "C" {
 #endif /* __cplusplus */
 
 #endif	/* XC_HEADER_TEMPLATE_H */
+#ifndef TIMERS_H
+#define	TIMERS_H
+void init_timer2();
+#endif
 
+#endif	/* TIMERS_H */

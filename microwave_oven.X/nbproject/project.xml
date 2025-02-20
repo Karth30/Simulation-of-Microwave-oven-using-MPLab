@@ -4,11 +4,13 @@
     <configuration>
         <data xmlns="http://www.netbeans.org/ns/make-project/1">
             <name>microwave_oven</name>
-            <creation-uuid>6fde15e0-38d4-479c-a861-a1b369621669</creation-uuid>
+            <creation-uuid>a4c330b5-2c9a-4f42-bf07-a9378ebe6594</creation-uuid>
             <make-project-type>0</make-project-type>
             <sourceEncoding>ISO-8859-1</sourceEncoding>
             <make-dep-projects/>
-            <sourceRootList/>
+            <sourceRootList>
+                <sourceRootElem>.</sourceRootElem>
+            </sourceRootList>
             <confList>
                 <confElem>
                     <name>default</name>
