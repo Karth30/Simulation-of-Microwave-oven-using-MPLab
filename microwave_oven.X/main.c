@@ -1,8 +1,8 @@
 /*
  * File:   main.c
- * Author: Karthayani
+ * Author: Biancaa.R
  *
- * Created on 19 February, 2025, 10:10 PM
+ * Created on 22 February, 2025, 1:10 AM
  */
 #include<xc.h>
 #include "clcd.h"
@@ -15,6 +15,8 @@ unsigned char sec, min;
 extern unsigned char operational_flag;
 unsigned char operational_flag = POWER_ON_SCREEN;
 unsigned char reset_flag = RESET_NOTHING;
+//int pre_heat_time;
+extern unsigned char min,sec;
 void init_config(void){
     //config CLCD
     init_clcd();
@@ -28,12 +30,14 @@ void init_config(void){
     BUZZER = 0;
     
     //config timer
-    init_timer2();
+    init_timer2(void);
     PEIE = 1;
     GIE = 1;
 }
 void main(void) {
     unsigned char key;
+    unsigned char start_mode=0;
+    //when start mode is true
     init_config();
     while(1){
         key = read_matrix_keypad(STATE);
@@ -44,28 +48,43 @@ void main(void) {
             if(key==1){
                 clear_screen();
                 operational_flag=MICRO_MODE;
+                start_mode=0;
                 clcd_print("Power=900w",LINE2(0));
                 __delay_ms(200);
                 clear_screen();
             }
             else if (key == 2){
                 clear_screen();
+                start_mode=0;
                 operational_flag = GRILL_MODE;
                 reset_flag = RESET_MODE;
                
             }
             else if (key == 3){
                 clear_screen();
+                start_mode=0;
                 operational_flag = CONVENTION_MODE;
+                reset_flag=RESET_MODE;
               
             }
             else if(key == 4){
+                clear_screen();
                 operational_flag=START_MODE;
+                start_mode=1;
+                reset_flag=RESET_MODE;
             }
         }
         if(operational_flag == DISPLAY_TIME){
             if(key == 4){
-                operational_flag = START;
+                //operational_flag = START;
+                //increment cooking time by 30
+                if(start_mode){
+                   sec=sec+30;
+                   if(sec >59){
+                       min++;
+                       sec=sec-60;
+                   }
+                }
             }
             else if (key == 5){
                 operational_flag = PAUSE;
@@ -106,6 +125,7 @@ void main(void) {
             case STOP :
                 FAN = 0;
                 TMR2ON = 0;
+                //clear_screen();
                 min = 0;
                 sec = 0;
                 clear_screen();
@@ -119,6 +139,11 @@ void main(void) {
             case CONVENTION_MODE:
                 //set temperature, set time, display time
                 set_temp(key, reset_flag);
+                break;
+                
+            case START_MODE:
+                //display time
+                heat_food();
                 break;
             
         }

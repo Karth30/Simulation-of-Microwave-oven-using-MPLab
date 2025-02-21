@@ -101,6 +101,7 @@ extern "C" {
 #define START             0XAA
 #define STOP              0XBB
 #define PAUSE             0XCC
-
+extern unsigned char min,sec;
+extern unsigned char operational_flag;
 #endif
 

@@ -8,6 +8,7 @@
 
 #include <xc.h>
 extern unsigned char sec, min;
+extern unsigned char pre_heat_time;
 unsigned int count;
 void __interrupt() isr(void){
     if(TMR2IF){
@@ -23,6 +24,10 @@ void __interrupt() isr(void){
                 sec = 60;
             }
             //if sec is 0, decrement min
+            else if(pre_heat_time!=0){
+                pre_heat_time--;
+                //down clocking 
+            }
             
         }
         TMR2IF = 0;//clear interrupt flag

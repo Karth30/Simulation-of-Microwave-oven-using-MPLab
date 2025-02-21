@@ -1,8 +1,8 @@
 /*
  * File:   timers.c
- * Author: Karthayani
+ * Author: Biancaa.R
  *
- * Created on 19 February, 2025, 10:32 PM
+ * Created on 22 February, 2025, 10:32 PM
  */
 
 
