@@ -86,7 +86,7 @@ void set_time(unsigned char key,unsigned char reset_flag){
     }
     else{
         clcd_putch(' ',LINE2(6));
-        clcd_putch(' ',LINE2(7))
+        clcd_putch(' ',LINE2(7));
     }
     for(unsigned char wait = 50; wait--;);
     
@@ -128,17 +128,40 @@ void time_display(void){
         
     }
 }
+void heat_food(void){
+            //start timer =60s
+            sec=30;
+            min=0;
+            FAN=1;
+            TMR2ON=1;
+            operational_flag=DISPLAY_TIME;
+}
 void set_temp(unsigned char key, unsigned char reset_flag)
 {
-    static unsigned char temp,key_count;
+    static unsigned char key_count;
+    static unsigned int temp;
+    
     //read temp, enter temp, hash
     if(reset_flag == RESET_MODE){
+        key =ALL_RELEASED;
         temp = 0;
         key_count = 0;
     }
     clcd_print("SET TEMP <*C>", LINE1(0));
     clcd_print("TEMP -",LINE2(0));
     clcd_print("*:CLEAR  #:ENTER",LINE4(0));
+    clcd_putch(' ',LINE2(8));
+    clcd_putch(' ',LINE2(9));
+    clcd_putch(' ',LINE2(10));
+    for (unsigned char wait =50 ;wait--;);
+        //convert decimal temp into ascii format
+        clcd_putch(((temp/100)+ '0'),LINE2(8));
+        clcd_putch(((temp/10) % 10+ '0'),LINE2(9));
+        clcd_putch((temp % 10 + '0'),LINE2(10));
+        
+     
+        
+    
     //matrix_keypad keys 0 to 9 are used to enter temperature
     if( key !='*' && key !='#' && key != ALL_RELEASED){
         if(key_count < 3){
@@ -152,14 +175,31 @@ void set_temp(unsigned char key, unsigned char reset_flag)
         key_count = 0;
         
     }
-    else if(key == '#'){
+    else if(key == '#'){ // thsi key is used to confirm the temperature
         if(temp > 180){
             temp = 180;
         }
         clear_screen();
         clcd_print("Pre-Heating ",LINE1(2));
         clcd_print("Time Rem:",LINE3(0));
+        clcd_print("sec",LINE3(13));
+        pre_heat_time=60;
+        //turn on the timer
+        TMR2ON=1;
+        //display it on the Clcd
+        while(pre_heat_time != 0){
+            //display the time
+            //convert decimal temp into ascii format
+            clcd_putch(((pre_heat_time/100)+ '0'),LINE3(10));
+            clcd_putch(((pre_heat_time/10) % 10+ '0'),LINE3(11));
+            clcd_putch((pre_heat_time % 10 + '0'),LINE3(12));
+            //convert decimal to ascii form
+        }
+        //turn on the timer and change the operational flag
+        TMR2ON=0;
+        operational_flag=MICRO_MODE;
     }
+
     //blinking the temp to indicate we are reading temp
     clcd_putch( ' ',LINE2(8));
     clcd_putch( ' ',LINE2(9));

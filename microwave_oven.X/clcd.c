@@ -1,13 +1,82 @@
 /*
  * File:   clcd.c
- * Author: Karthayani
+ * Author: Biancaa.R
  *
- * Created on 19 February, 2025, 7:23 PM
+ * Created on 22 February, 2025, 1:3- AM
  */
+#include <stdio.h>
+#include<xc.h>
+#include <string.h>
+#include "clcd.h"
 
 
-#include <xc.h>
-
-void main(void) {
-    return;
+void clcd_write(unsigned char byte, unsigned char mode){
+  //1 for data 0 for instruction  
+  CLCD_RS   =mode;
+  CLCD_DATA_PORT= byte& 0xF0;
+  CLCD_EN =HI;
+  __delay_us(100);
+  CLCD_EN=LOW;
+  CLCD_DATA_PORT =(byte & 0x0F) <<4;
+  CLCD_EN= HI;
+  __delay_us(100);
+  CLCD_EN=LOW;
+  __delay_us(4100);
 }
+
+
+static void init_display_controller(void)
+{
+    /* Startup Time for the CLCD controller */
+    __delay_ms(30);
+    
+    /* The CLCD Startup Sequence */
+    clcd_write(EIGHT_BIT_MODE, INST_MODE); //0x33
+    __delay_us(4100);
+    clcd_write(EIGHT_BIT_MODE, INST_MODE);  //0x3
+    __delay_us(100);
+    clcd_write(EIGHT_BIT_MODE, INST_MODE); //0x3
+    __delay_us(1); 
+    
+    clcd_write(FOUR_BIT_MODE, INST_MODE); //0x20
+    __delay_us(100);
+    clcd_write(TWO_LINES_5x8_4_BIT_MODE, INST_MODE); // 0x28
+    __delay_us(100);
+    clcd_write(CLEAR_DISP_SCREEN, INST_MODE);
+    __delay_us(500);
+    clcd_write(DISP_ON_AND_CURSOR_OFF, INST_MODE);
+    __delay_us(100);
+}
+
+
+//clcd_putch('A', LINE1(0));
+void clcd_putch(const char data, unsigned char addr)
+{ //mode ->inst 0, mode data-->1
+    clcd_write(addr, INST_MODE); // 0x80 as instruction
+    clcd_write(data, DATA_MODE); // A as data
+}
+
+//clcd_print("hello", LINE2(0));
+void clcd_print(const char *str, unsigned char addr)
+{
+    clcd_write(addr, INST_MODE); // 0xc0
+    
+    while (*str != '\0')
+    {
+        clcd_write(*str, DATA_MODE); // h , e , l ,l ,o , \0
+        str++;
+    }
+}
+
+void init_clcd(void)
+{   // in 4 bit mode:
+    // rd7 6 5 4 --> as the output
+    // TRISDD= TRISD & 0x0F;]
+    CLCD_DATA_PORT_DDR= CLCD_DATA_PORT_DDR & 0x0F;
+    CLCD_RS_DDR=0;
+    CLCD_EN_DDR=0;
+    init_display_controller();
+    
+}
+
+

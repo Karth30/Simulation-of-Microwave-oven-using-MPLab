@@ -7,6 +7,7 @@
 
 #ifndef CLCD_H
 #define	CLCD_H
+#define     BAR 0xFF
 
 #define _XTAL_FREQ                  20000000
 //setting up of frequency for setting up internal delay

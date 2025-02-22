@@ -59,25 +59,11 @@
     </code>
 
     <p><b>Remarks:</b></p>
- */
-// TODO Insert declarations or function prototypes (right here) to leverage 
-// live documentation
-
-#ifdef	__cplusplus
-extern "C" {
-#endif /* __cplusplus */
-
-    // TODO If C++ is being used, regular C code needs function names to have C 
-    // linkage so the functions can be used by the c code. 
-
-#ifdef	__cplusplus
-}
-#endif /* __cplusplus */
 
 #endif	/* XC_HEADER_TEMPLATE_H */
 #ifndef TIMERS_H
 #define	TIMERS_H
-void init_timer2();
+void init_timer2(void);
+#endif
 #endif
 
-#endif	/* TIMERS_H */
