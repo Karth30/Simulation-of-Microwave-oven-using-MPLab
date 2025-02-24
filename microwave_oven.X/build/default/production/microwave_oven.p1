@@ -313,12 +313,12 @@ Version 4.0 HI-TECH Software Intermediate Code
 [f ]
 "34
 [; ;microwave_oven.c: 34:     static unsigned char blink_pos =0, key_count = 0;
-[v F1042 `uc ~T0 @X0 1 s blink_pos ]
-[i F1042
+[v F1043 `uc ~T0 @X0 1 s blink_pos ]
+[i F1043
 -> -> 0 `i `uc
 ]
-[v F1043 `uc ~T0 @X0 1 s key_count ]
-[i F1043
+[v F1044 `uc ~T0 @X0 1 s key_count ]
+[i F1044
 -> -> 0 `i `uc
 ]
 "35
@@ -327,10 +327,10 @@ Version 4.0 HI-TECH Software Intermediate Code
 {
 "36
 [; ;microwave_oven.c: 36:         blink_pos = 0;
-[e = F1042 -> -> 0 `i `uc ]
+[e = F1043 -> -> 0 `i `uc ]
 "37
 [; ;microwave_oven.c: 37:         key_count = 0;
-[e = F1043 -> -> 0 `i `uc ]
+[e = F1044 -> -> 0 `i `uc ]
 "38
 [; ;microwave_oven.c: 38:         key = 0xFF;
 [e = _key -> -> 255 `i `uc ]
@@ -362,17 +362,17 @@ Version 4.0 HI-TECH Software Intermediate Code
 {
 "48
 [; ;microwave_oven.c: 48:         key_count ++;
-[e ++ F1043 -> -> 1 `i `uc ]
+[e ++ F1044 -> -> 1 `i `uc ]
 "49
 [; ;microwave_oven.c: 49:         if(key_count <=2){
-[e $ ! <= -> F1043 `i -> 2 `i 111  ]
+[e $ ! <= -> F1044 `i -> 2 `i 111  ]
 {
 "50
 [; ;microwave_oven.c: 50:             sec =sec * 10 + key;
 [e = _sec -> + * -> _sec `i -> 10 `i -> _key `i `uc ]
 "51
 [; ;microwave_oven.c: 51:             blink_pos = 0;
-[e = F1042 -> -> 0 `i `uc ]
+[e = F1043 -> -> 0 `i `uc ]
 "52
 [; ;microwave_oven.c: 52:         }
 }
@@ -380,14 +380,14 @@ Version 4.0 HI-TECH Software Intermediate Code
 "53
 [; ;microwave_oven.c: 53:         else if(key_count <=4 ){
 [e :U 111 ]
-[e $ ! <= -> F1043 `i -> 4 `i 113  ]
+[e $ ! <= -> F1044 `i -> 4 `i 113  ]
 {
 "54
 [; ;microwave_oven.c: 54:             min =min * 10 + key;
 [e = _min -> + * -> _min `i -> 10 `i -> _key `i `uc ]
 "55
 [; ;microwave_oven.c: 55:             blink_pos = 1;
-[e = F1042 -> -> 1 `i `uc ]
+[e = F1043 -> -> 1 `i `uc ]
 "56
 [; ;microwave_oven.c: 56:         }
 }
@@ -404,14 +404,14 @@ Version 4.0 HI-TECH Software Intermediate Code
 {
 "60
 [; ;microwave_oven.c: 60:         if(blink_pos){
-[e $ ! != -> F1042 `i -> 0 `i 116  ]
+[e $ ! != -> F1043 `i -> 0 `i 116  ]
 {
 "61
 [; ;microwave_oven.c: 61:             min = 0;
 [e = _min -> -> 0 `i `uc ]
 "62
 [; ;microwave_oven.c: 62:             key_count = 2;
-[e = F1043 -> -> 2 `i `uc ]
+[e = F1044 -> -> 2 `i `uc ]
 "63
 [; ;microwave_oven.c: 63:         }
 }
@@ -425,7 +425,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e = _sec -> -> 0 `i `uc ]
 "66
 [; ;microwave_oven.c: 66:             key_count = 0;
-[e = F1043 -> -> 0 `i `uc ]
+[e = F1044 -> -> 0 `i `uc ]
 "67
 [; ;microwave_oven.c: 67:         }
 }
@@ -459,7 +459,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e :U 114 ]
 "83
 [; ;microwave_oven.c: 83:     if(blink_pos == 0){
-[e $ ! == -> F1042 `i -> 0 `i 120  ]
+[e $ ! == -> F1043 `i -> 0 `i 120  ]
 {
 "84
 [; ;microwave_oven.c: 84:         clcd_putch(' ',(0xC0 + 9));
@@ -628,10 +628,10 @@ Version 4.0 HI-TECH Software Intermediate Code
 [f ]
 "141
 [; ;microwave_oven.c: 141:     static unsigned char key_count;
-[v F1050 `uc ~T0 @X0 1 s key_count ]
+[v F1051 `uc ~T0 @X0 1 s key_count ]
 "142
 [; ;microwave_oven.c: 142:     static unsigned int temp;
-[v F1051 `ui ~T0 @X0 1 s temp ]
+[v F1052 `ui ~T0 @X0 1 s temp ]
 "145
 [; ;microwave_oven.c: 145:     if(reset_flag == 0XFF){
 [e $ ! == -> _reset_flag `i -> 255 `i 130  ]
@@ -641,10 +641,10 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e = _key -> -> 255 `i `uc ]
 "147
 [; ;microwave_oven.c: 147:         temp = 0;
-[e = F1051 -> -> 0 `i `ui ]
+[e = F1052 -> -> 0 `i `ui ]
 "148
 [; ;microwave_oven.c: 148:         key_count = 0;
-[e = F1050 -> -> 0 `i `uc ]
+[e = F1051 -> -> 0 `i `uc ]
 "149
 [; ;microwave_oven.c: 149:     }
 }
@@ -680,27 +680,27 @@ Version 4.0 HI-TECH Software Intermediate Code
 }
 "158
 [; ;microwave_oven.c: 158:         clcd_putch(((temp/100)+ '0'),(0xC0 + 8));
-[e ( _clcd_putch (2 , -> + / F1051 -> -> 100 `i `ui -> 48 `ui `uc -> + -> 192 `i -> 8 `i `uc ]
+[e ( _clcd_putch (2 , -> + / F1052 -> -> 100 `i `ui -> 48 `ui `uc -> + -> 192 `i -> 8 `i `uc ]
 "159
 [; ;microwave_oven.c: 159:         clcd_putch(((temp/10) % 10+ '0'),(0xC0 + 9));
-[e ( _clcd_putch (2 , -> + % / F1051 -> -> 10 `i `ui -> -> 10 `i `ui -> 48 `ui `uc -> + -> 192 `i -> 9 `i `uc ]
+[e ( _clcd_putch (2 , -> + % / F1052 -> -> 10 `i `ui -> -> 10 `i `ui -> 48 `ui `uc -> + -> 192 `i -> 9 `i `uc ]
 "160
 [; ;microwave_oven.c: 160:         clcd_putch((temp % 10 + '0'),(0xC0 + 10));
-[e ( _clcd_putch (2 , -> + % F1051 -> -> 10 `i `ui -> 48 `ui `uc -> + -> 192 `i -> 10 `i `uc ]
+[e ( _clcd_putch (2 , -> + % F1052 -> -> 10 `i `ui -> 48 `ui `uc -> + -> 192 `i -> 10 `i `uc ]
 "166
 [; ;microwave_oven.c: 166:     if( key !='*' && key !='#' && key != 0xFF){
 [e $ ! && && != -> _key `ui -> 42 `ui != -> _key `ui -> 35 `ui != -> _key `i -> 255 `i 135  ]
 {
 "167
 [; ;microwave_oven.c: 167:         if(key_count < 3){
-[e $ ! < -> F1050 `i -> 3 `i 136  ]
+[e $ ! < -> F1051 `i -> 3 `i 136  ]
 {
 "168
 [; ;microwave_oven.c: 168:             temp = temp * 10 + key;
-[e = F1051 + * F1051 -> -> 10 `i `ui -> _key `ui ]
+[e = F1052 + * F1052 -> -> 10 `i `ui -> _key `ui ]
 "169
 [; ;microwave_oven.c: 169:             key_count++;
-[e ++ F1050 -> -> 1 `i `uc ]
+[e ++ F1051 -> -> 1 `i `uc ]
 "170
 [; ;microwave_oven.c: 170:         }
 }
@@ -718,10 +718,10 @@ Version 4.0 HI-TECH Software Intermediate Code
 {
 "174
 [; ;microwave_oven.c: 174:         temp = 0;
-[e = F1051 -> -> 0 `i `ui ]
+[e = F1052 -> -> 0 `i `ui ]
 "175
 [; ;microwave_oven.c: 175:         key_count = 0;
-[e = F1050 -> -> 0 `i `uc ]
+[e = F1051 -> -> 0 `i `uc ]
 "177
 [; ;microwave_oven.c: 177:     }
 }
@@ -733,11 +733,11 @@ Version 4.0 HI-TECH Software Intermediate Code
 {
 "179
 [; ;microwave_oven.c: 179:         if(temp > 180){
-[e $ ! > F1051 -> -> 180 `i `ui 141  ]
+[e $ ! > F1052 -> -> 180 `i `ui 141  ]
 {
 "180
 [; ;microwave_oven.c: 180:             temp = 180;
-[e = F1051 -> -> 180 `i `ui ]
+[e = F1052 -> -> 180 `i `ui ]
 "181
 [; ;microwave_oven.c: 181:         }
 }
@@ -816,13 +816,13 @@ Version 4.0 HI-TECH Software Intermediate Code
 }
 "211
 [; ;microwave_oven.c: 211:     clcd_putch((temp/100 + '0'),(0xC0 + 8));
-[e ( _clcd_putch (2 , -> + / F1051 -> -> 100 `i `ui -> 48 `ui `uc -> + -> 192 `i -> 8 `i `uc ]
+[e ( _clcd_putch (2 , -> + / F1052 -> -> 100 `i `ui -> 48 `ui `uc -> + -> 192 `i -> 8 `i `uc ]
 "212
 [; ;microwave_oven.c: 212:     clcd_putch( ((temp/10) % 10+ '0'),(0xC0 + 9));
-[e ( _clcd_putch (2 , -> + % / F1051 -> -> 10 `i `ui -> -> 10 `i `ui -> 48 `ui `uc -> + -> 192 `i -> 9 `i `uc ]
+[e ( _clcd_putch (2 , -> + % / F1052 -> -> 10 `i `ui -> -> 10 `i `ui -> 48 `ui `uc -> + -> 192 `i -> 9 `i `uc ]
 "213
 [; ;microwave_oven.c: 213:     clcd_putch( (temp/10 + '0'),(0xC0 + 10));
-[e ( _clcd_putch (2 , -> + / F1051 -> -> 10 `i `ui -> 48 `ui `uc -> + -> 192 `i -> 10 `i `uc ]
+[e ( _clcd_putch (2 , -> + / F1052 -> -> 10 `i `ui -> 48 `ui `uc -> + -> 192 `i -> 10 `i `uc ]
 "215
 [; ;microwave_oven.c: 215: }
 [e :UE 129 ]

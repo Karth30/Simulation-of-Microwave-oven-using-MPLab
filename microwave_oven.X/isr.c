@@ -8,7 +8,7 @@
 
 #include <xc.h>
 extern unsigned char sec, min;
-extern unsigned char pre_heat_time;
+extern unsigned int pre_heat_time;
 unsigned int count;
 void __interrupt() isr(void){
     if(TMR2IF){

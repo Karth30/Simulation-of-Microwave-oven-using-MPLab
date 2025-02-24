@@ -1,4 +1,4 @@
-# 1 "main.c"
+# 1 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\sources\\c99\\pic\\__eeprom.c"
 # 1 "<built-in>" 1
 # 1 "<built-in>" 3
 # 285 "<built-in>" 3
@@ -6,13 +6,7 @@
 # 1 "<built-in>" 2
 # 1 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include/language_support.h" 1 3
 # 2 "<built-in>" 2
-# 1 "main.c" 2
-
-
-
-
-
-
+# 1 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\sources\\c99\\pic\\__eeprom.c" 2
 # 1 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include/xc.h" 1 3
 # 18 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include/xc.h" 3
 extern const char __xc8_OPTIM_SPEED;
@@ -1901,178 +1895,175 @@ extern __bank0 unsigned char __resetbits;
 extern __bank0 __bit __powerdown;
 extern __bank0 __bit __timeout;
 # 29 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include/xc.h" 2 3
-# 8 "main.c" 2
-# 1 "./clcd.h" 1
-# 42 "./clcd.h"
-void init_clcd(void);
-void clcd_putch(const char data, unsigned char addr);
-void clcd_print(const char *str, unsigned char addr);
-void clcd_write(unsigned char byte, unsigned char mode);
-# 9 "main.c" 2
-# 1 "./main.h" 1
-# 104 "./main.h"
-extern unsigned char min,sec;
-extern unsigned char operational_flag;
-# 10 "main.c" 2
-# 1 "./microwave_oven.h" 1
+# 2 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\sources\\c99\\pic\\__eeprom.c" 2
 
 
 
-unsigned int pre_heat_time;
-void clear_screen(void);
-void power_on_screen(void);
-void display_menu_screen(void);
-void set_time(unsigned char key, unsigned char reset_flag);
-void heat_food(void);
-void time_display(void);
-void set_temp(unsigned char key, unsigned char reset_flag);
-# 11 "main.c" 2
-# 1 "./matrix_keypad.h" 1
-# 28 "./matrix_keypad.h"
-unsigned char read_matrix_keypad(unsigned char mode);
-void init_matrix_keypad(void);
-# 12 "main.c" 2
-# 1 "./timers.h" 1
-# 66 "./timers.h"
-void init_timer2(void);
-# 13 "main.c" 2
+void
+__eecpymem(volatile unsigned char *to, __eeprom unsigned char * from, unsigned char size)
+{
+ volatile unsigned char *cp = to;
 
-unsigned char sec, min;
-extern unsigned char operational_flag;
-unsigned char operational_flag = 0x01;
-unsigned char reset_flag = 0X00;
+ while (EECON1bits.WR) continue;
+ EEADR = (unsigned char)from;
+ while(size--) {
+  while (EECON1bits.WR) continue;
 
-extern unsigned char min,sec;
-void init_config(void){
+  EECON1 &= 0x7F;
 
-    init_clcd();
-    init_matrix_keypad();
-
-
-    TRISC2 = 0;
-    RC2 = 0;
-
-    TRISC1 = 0;
-    RC1 = 0;
-
-
-    init_timer2();
-    PEIE = 1;
-    GIE = 1;
+  EECON1bits.RD = 1;
+  *cp++ = EEDATA;
+  ++EEADR;
+ }
+# 36 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\sources\\c99\\pic\\__eeprom.c"
 }
-void main(void) {
-    unsigned char key;
-    unsigned char start_mode=0;
 
-    init_config();
-    while(1){
-        key = read_matrix_keypad(1);
+void
+__memcpyee(__eeprom unsigned char * to, const unsigned char *from, unsigned char size)
+{
+ const unsigned char *ptr =from;
 
-        if (operational_flag==0x02){
+ while (EECON1bits.WR) continue;
+ EEADR = (unsigned char)to - 1U;
 
+ EECON1 &= 0x7F;
 
-            if(key==1){
-                clear_screen();
-                operational_flag=0x11;
-                start_mode=0;
-                clcd_print("Power=900w",(0xC0 + 0));
-                _delay((unsigned long)((200)*(20000000/4000.0)));
-                clear_screen();
-            }
-            else if (key == 2){
-                clear_screen();
-                start_mode=0;
-                operational_flag = 0x12;
-                reset_flag = 0XFF;
+ while(size--) {
+  while (EECON1bits.WR) {
+   continue;
+  }
+  EEDATA = *ptr++;
+  ++EEADR;
+  STATUSbits.CARRY = 0;
+  if (INTCONbits.GIE) {
+   STATUSbits.CARRY = 1;
+  }
+  INTCONbits.GIE = 0;
+  EECON1bits.WREN = 1;
+  EECON2 = 0x55;
+  EECON2 = 0xAA;
+  EECON1bits.WR = 1;
+  EECON1bits.WREN = 0;
+  if (STATUSbits.CARRY) {
+   INTCONbits.GIE = 1;
+  }
+ }
+# 101 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\sources\\c99\\pic\\__eeprom.c"
+}
 
-            }
-            else if (key == 3){
-                clear_screen();
-                start_mode=0;
-                operational_flag = 0x13;
-                reset_flag=0XFF;
+unsigned char
+__eetoc(__eeprom void *addr)
+{
+ unsigned char data;
+ __eecpymem((unsigned char *) &data,addr,1);
+ return data;
+}
 
-            }
-            else if(key == 4){
-                clear_screen();
-                operational_flag=0X14;
-                start_mode=1;
-                reset_flag=0XFF;
-            }
-        }
-        if(operational_flag == 0XDD){
-            if(key == 4){
+unsigned int
+__eetoi(__eeprom void *addr)
+{
+ unsigned int data;
+ __eecpymem((unsigned char *) &data,addr,2);
+ return data;
+}
 
+#pragma warning push
+#pragma warning disable 2040
+__uint24
+__eetom(__eeprom void *addr)
+{
+ __uint24 data;
+ __eecpymem((unsigned char *) &data,addr,3);
+ return data;
+}
+#pragma warning pop
 
-                if(start_mode){
-                   sec=sec+30;
-                   if(sec >59){
-                       min++;
-                       sec=sec-60;
-                   }
-                }
-            }
-            else if (key == 5){
-                operational_flag = 0XCC;
-            }
-            else if(key == 6){
-                operational_flag = 0XBB;
-            }
-        }
-        else if(operational_flag == 0XCC){
+unsigned long
+__eetol(__eeprom void *addr)
+{
+ unsigned long data;
+ __eecpymem((unsigned char *) &data,addr,4);
+ return data;
+}
 
-            if(key == 4){
-                RC2 = 1;
-                TMR2ON = 1;
-                operational_flag = 0XDD;
-            }
-        }
-        switch(operational_flag){
-            case 0x01:
-                power_on_screen();
-                operational_flag= 0x02;
+#pragma warning push
+#pragma warning disable 1516
+unsigned long long
+__eetoo(__eeprom void *addr)
+{
+ unsigned long long data;
+ __eecpymem((unsigned char *) &data,addr,8);
+ return data;
+}
+#pragma warning pop
 
-                clear_screen();
-                break;
-            case 0x02:
-                display_menu_screen();
-                break;
-            case 0x11:
-                set_time(key,reset_flag);
-                break;
-            case 0XDD :
-                time_display();
-                break;
-            case 0XCC :
+unsigned char
+__ctoee(__eeprom void *addr, unsigned char data)
+{
+ __memcpyee(addr,(unsigned char *) &data,1);
+ return data;
+}
 
-                RC2 = 0;
-                TMR2ON = 0;
-                break;
-            case 0XBB :
-                RC2 = 0;
-                TMR2ON = 0;
+unsigned int
+__itoee(__eeprom void *addr, unsigned int data)
+{
+ __memcpyee(addr,(unsigned char *) &data,2);
+ return data;
+}
 
-                min = 0;
-                sec = 0;
-                clear_screen();
-                operational_flag = 0x02;
-                break;
+#pragma warning push
+#pragma warning disable 2040
+__uint24
+__mtoee(__eeprom void *addr, __uint24 data)
+{
+ __memcpyee(addr,(unsigned char *) &data,3);
+ return data;
+}
+#pragma warning pop
 
-            case 0x12:
-                set_time(key, reset_flag);
-                break;
+unsigned long
+__ltoee(__eeprom void *addr, unsigned long data)
+{
+ __memcpyee(addr,(unsigned char *) &data,4);
+ return data;
+}
 
-            case 0x13:
+#pragma warning push
+#pragma warning disable 1516
+unsigned long long
+__otoee(__eeprom void *addr, unsigned long long data)
+{
+ __memcpyee(addr,(unsigned char *) &data,8);
+ return data;
+}
+#pragma warning pop
 
-                set_temp(key, reset_flag);
-                break;
+float
+__eetoft(__eeprom void *addr)
+{
+ float data;
+ __eecpymem((unsigned char *) &data,addr,3);
+ return data;
+}
 
-            case 0X14:
+double
+__eetofl(__eeprom void *addr)
+{
+ double data;
+ __eecpymem((unsigned char *) &data,addr,4);
+ return data;
+}
 
-                heat_food();
-                break;
+float
+__fttoee(__eeprom void *addr, float data)
+{
+ __memcpyee(addr,(unsigned char *) &data,3);
+ return data;
+}
 
-        }
-        reset_flag = 0X00;
-    }
+double
+__fltoee(__eeprom void *addr, double data)
+{
+ __memcpyee(addr,(unsigned char *) &data,4);
+ return data;
 }
