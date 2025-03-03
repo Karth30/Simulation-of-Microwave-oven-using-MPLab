@@ -30,7 +30,7 @@ void init_config(void){
     BUZZER = 0;
     
     //config timer
-    init_timer2(void);
+    init_timer2();
     PEIE = 1;
     GIE = 1;
 }

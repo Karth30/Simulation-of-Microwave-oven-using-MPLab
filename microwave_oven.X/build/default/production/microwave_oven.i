@@ -1922,6 +1922,8 @@ extern unsigned char min,sec;
 extern unsigned char operational_flag;
 # 5 "microwave_oven.c" 2
 # 1 "./timers.h" 1
+# 66 "./timers.h"
+void init_timer2(void);
 # 6 "microwave_oven.c" 2
 # 1 "./matrix_keypad.h" 1
 # 28 "./matrix_keypad.h"

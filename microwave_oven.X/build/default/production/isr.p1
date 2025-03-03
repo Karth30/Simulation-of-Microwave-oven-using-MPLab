@@ -9,8 +9,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [v _sec `uc ~T0 @X0 0 e ]
 [v _min `uc ~T0 @X0 0 e ]
 "11
-[; ;isr.c: 11: extern unsigned char pre_heat_time;
-[v _pre_heat_time `uc ~T0 @X0 0 e ]
+[; ;isr.c: 11: extern unsigned int pre_heat_time;
+[v _pre_heat_time `ui ~T0 @X0 0 e ]
 "54 D:/Microchip/MPLABX/v6.20/packs/Microchip/PIC16Fxxx_DFP/1.6.156/xc8\pic\include\proc/pic16f877a.h
 [; ;D:/Microchip/MPLABX/v6.20/packs/Microchip/PIC16Fxxx_DFP/1.6.156/xc8\pic\include\proc/pic16f877a.h: 54: __asm("INDF equ 00h");
 [; <" INDF equ 00h ;# ">
@@ -243,11 +243,11 @@ Version 4.0 HI-TECH Software Intermediate Code
 "27
 [; ;isr.c: 27:             else if(pre_heat_time!=0){
 [e :U 104 ]
-[e $ ! != -> _pre_heat_time `i -> 0 `i 106  ]
+[e $ ! != _pre_heat_time -> -> 0 `i `ui 106  ]
 {
 "28
 [; ;isr.c: 28:                 pre_heat_time--;
-[e -- _pre_heat_time -> -> 1 `i `uc ]
+[e -- _pre_heat_time -> -> 1 `i `ui ]
 "30
 [; ;isr.c: 30:             }
 }

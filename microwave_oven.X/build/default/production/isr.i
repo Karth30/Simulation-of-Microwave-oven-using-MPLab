@@ -1905,7 +1905,7 @@ extern __bank0 __bit __timeout;
 # 29 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include/xc.h" 2 3
 # 10 "isr.c" 2
 extern unsigned char sec, min;
-extern unsigned char pre_heat_time;
+extern unsigned int pre_heat_time;
 unsigned int count;
 void __attribute__((picinterrupt(("")))) isr(void){
     if(TMR2IF){
